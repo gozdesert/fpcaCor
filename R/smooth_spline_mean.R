@@ -1,0 +1,15 @@
+smooth_spline_mean = function(Y = NULL, argvals = NULL, center = TRUE){
+  stopifnot(!is.null(Y))  #if Y = NULL, stop the function and give an error message
+  stopifnot(is.matrix(Y))  #if Y is not a matrix, stop the function and give an error message
+  data_dim <- dim(Y)
+  I <- data_dim[1]
+  J <- data_dim[2]
+  if (is.null(argvals))
+    argvals <- (1:J)/J - 1/2/J #create a numerical vector
+  meanX <- rep(0, J)   #create a vector of zeros
+  if (center) {
+    meanX <- colMeans(Y, na.rm = TRUE)
+    meanX <- smooth.spline(argvals, meanX, all.knots = TRUE)$y  #call smooth.spline function from the package refund
+  }
+  return(meanX)  #return the mean vector after smoothing
+}
