@@ -1,5 +1,5 @@
 Package: fpcaCor
-Title: FPCA by Somothing the Correlation
+Title: FPCA by Somothing the Correlation Marix
 Version: 1.0.0
 Authors@R: 
     person("Gozde", "Sert", , "gozdesert@stat.tamu.edu", role = c("aut", "cre"))
@@ -13,5 +13,6 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Imports: 
+    stats,
     Matrix,
     refund
