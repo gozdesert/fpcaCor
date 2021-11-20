@@ -1,3 +1,14 @@
+#' Smooth spline mean
+#'
+#' @param Y  a numerical matrix which is given by users.
+#' @param argvals a numerical vector which can be given by users.
+#' @param center a logical argument, it is TRUE (default).
+#'
+#' @return smoothed mean of given matrix Y.
+#' @export
+#'
+#' @examples
+#'
 smooth_spline_mean = function(Y = NULL, argvals = NULL, center = TRUE){
   stopifnot(!is.null(Y))  #if Y = NULL, stop the function and give an error message
   stopifnot(is.matrix(Y))  #if Y is not a matrix, stop the function and give an error message
