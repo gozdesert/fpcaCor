@@ -1,6 +1,6 @@
 #some checks and tests will be done here!
 smooth_spline_mean = function(Y = NULL, argvals = NULL){
-  stopifnot(!is.null(Y))
+  stopifnot(!is.null(Y))  #if Y = NULL, stop the function and give an error message
   stopifnot(is.matrix(Y))
   data_dim <- dim(Y)
   I <- data_dim[1]
