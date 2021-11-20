@@ -3,7 +3,7 @@ Title: FPCA by Somothing the Correlation Marix
 Version: 1.0.0
 Authors@R: 
     person("Gozde", "Sert", , "gozdesert@stat.tamu.edu", role = c("aut", "cre"))
-Description: FPC analysis by using a method of smoothing for correlation matrix based on laten Gaussian copulas.
+Description: FPC analysis by using a method of smoothing for correlation matrix based on latent Gaussian copulas.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
