@@ -15,4 +15,5 @@ VignetteBuilder: knitr
 Imports: 
     stats,
     Matrix,
-    refund
+    refund,
+    base
