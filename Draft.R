@@ -1,5 +1,5 @@
 #some checks and tests will be done here!
-smooth_spline_mean = function(Y = NULL, argvals = NULL,  ){
+smooth_spline_mean = function(Y = NULL, argvals = NULL){
   stopifnot(!is.null(Y))
   stopifnot(is.matrix(Y))
   data_dim <- dim(Y)
