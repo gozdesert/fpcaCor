@@ -8,7 +8,12 @@
 #' @export
 #'
 #' @examples
-#'
+#' ### settings
+#' n = 50  # number of subjects
+#' p = 200  #number of time points
+#' Y = matrix(rnorm(n*p), nrow = n, ncol = p)
+#' t = (1:p)/p  # a regular grid on [0,1]
+#' result = smooth_spline_mean(Y = Y, argvals = t)
 smooth_spline_mean = function(Y = NULL, argvals = NULL, center = TRUE){
   stopifnot(!is.null(Y))  #if Y = NULL, stop the function and give an error message
   stopifnot(is.matrix(Y))  #if Y is not a matrix, stop the function and give an error message
