@@ -1,6 +1,6 @@
 ---
-title: "README.md"
-output: html_document
+title: "fpcaCor package for Functional Data Analysis"
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
