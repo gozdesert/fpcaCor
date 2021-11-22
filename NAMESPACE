@@ -2,3 +2,8 @@
 
 export(smooth_spline_mean)
 export(soft)
+import(Matrix)
+import(base)
+import(fdapace)
+import(refund)
+import(stats)
