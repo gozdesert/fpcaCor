@@ -15,5 +15,4 @@ VignetteBuilder: knitr
 Imports: 
     stats,
     refund,
-    base,
     fdapace
