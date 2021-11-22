@@ -2,4 +2,5 @@
 #' @import stats
 #' @import refund
 #' @import Matrix
- NULL
+#' @import fdapace
+NULL
