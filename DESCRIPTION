@@ -16,4 +16,5 @@ Imports:
     stats,
     Matrix,
     refund,
-    base
+    base,
+    fdapace
