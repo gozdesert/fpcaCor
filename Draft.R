@@ -1,5 +1,5 @@
 #some checks and tests will be done here!
-smooth_spline_mean = function(Y = NULL, argvals = NULL){
+smooth_spline_mean_try = function(Y = NULL, argvals = NULL, center = TRUE){
   stopifnot(!is.null(Y))  #if Y = NULL, stop the function and give an error message
   stopifnot(is.matrix(Y))
   data_dim <- dim(Y)
@@ -15,3 +15,5 @@ smooth_spline_mean = function(Y = NULL, argvals = NULL){
   }
   return(meanX)
 }
+Y = matrix(rnorm(100), nrow = 10, ncol = 10)
+smooth_spline_mean(Y, argvals = NULL)
