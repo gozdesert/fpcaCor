@@ -1,6 +1,7 @@
 ---
 title: "Getting started with R-package fpcaCor"
 output: rmarkdown::html_vignette
+bibliography: references.bib
 vignette: >
   %\VignetteIndexEntry{Getting started with R-package fpcaCor}
   %\VignetteEngine{knitr::rmarkdown}
@@ -19,11 +20,27 @@ library(fpcaCor)
 ```
 
 # Overview
-This is a brief introduction to the package **fpcaCor**. For a general overview on functional data analysis (FDA), see (Ramsey and Silverman, 2005). Specifically, we work on functional principal component analysis (FPCA) for dimension reduction of functional data. For more details, readers can look at (Yao et al., 2003; Goldsmith et al., 2013; and Xiao et al., 2016). 
+This is a brief introduction to the package **fpcaCor**. For a general overview on functional data analysis (FDA), see (Ramsey and Silverman, 2005). Specifically, we work on functional principal component analysis (FPCA) for dimension reduction of functional data. For more details, readers can look at @Yao:2003hd (Yao et al., 2003; Goldsmith et al., 2013; and Xiao et al., 2016). 
 
 Let $X_i(t)$ be the measurement for subject $i,$ where $i = 1, 2, \dots, n$ at time $t, \ t = 1,2 \dots, T$. By using the basic idea of FPCA based on the trancation of Karhunen-Loe've (KL) decomposition as 
-$$
+
+\begin{equation}
 X_i(t) = \mu(t) + \sum_{j= 1}^r \xi_{ij}\phi_j(t) + \varepsilon_i(t),
-$$
+\end{equation} 
+
 where $\mu(t)$ is the overall mean, $\xi_{ij}$ are subject-specific scores, $\phi_j(t)$ are eigenfunctions of underlying covariance operator $K(\cdot, \cdot)$, $r$ is the truncation level and $\varepsilon_i(t)$ are iid error terms. 
 
+# Copula FPCA
+Instead of working with observed $X_i(t)$, we want to focus on a corresponding latent Gaussian $Z_i(t)$. We will apply KL decomposition to *latent* Gaussian $Z_i(t)$ rather than the *observed * $X_i(t)$. Then we get 
+
+\begin{equation}
+Z_i(t) = \mu(t) + \sum_{j= 1}^r \xi_{ij}\phi_j(t) + \varepsilon_i(t).
+\end{equation} 
+
+To get $X_i(t)$ back from $Z_i(t)$,  we use a strictly monotone transformation $f_t$ so that $f_t(X_i(t)) = Z_i(t)$ for continuous $X_i(t)$. 
+
+
+For the noncontinuous case, we will use corresponding latent models from *Yoon et al (2020)
+*. See the paper (Yoon et al, 2020) for more details. 
+
+# References
