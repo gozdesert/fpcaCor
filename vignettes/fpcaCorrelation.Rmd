@@ -17,3 +17,9 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(fpcaCor)
 ```
+
+# Overview
+This is a brief introduction to the package **fpcaCor**. For a general overview on functional data analysis (FDA), see (Ramsey and Silverman, 2005). Specifically, we work on functional principal component analysis (FPCA) for dimension reduction of functional data. For more details, readers can look at (Yao et al., 2003; Goldsmith et al., 2013; and Xiao et al., 2016). 
+
+
+
