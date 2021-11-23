@@ -21,5 +21,9 @@ library(fpcaCor)
 # Overview
 This is a brief introduction to the package **fpcaCor**. For a general overview on functional data analysis (FDA), see (Ramsey and Silverman, 2005). Specifically, we work on functional principal component analysis (FPCA) for dimension reduction of functional data. For more details, readers can look at (Yao et al., 2003; Goldsmith et al., 2013; and Xiao et al., 2016). 
 
-
+Let $X_i(t)$ be the measurement for subject $i,$ where $i = 1, 2, \dots, n$ at time $t, \ t = 1,2 \dots, T$. By using the basic idea of FPCA based on the trancation of Karhunen-Loe've (KL) decomposition as 
+$$
+X_i(t) = \mu(t) + \sum_{j= 1}^r \xi_{ij}\phi_j(t) + \varepsilon_i(t),
+$$
+where $\mu(t)$ is the overall mean, $\xi_{ij}$ are subject-specific scores, $\phi_j(t)$ are eigenfunctions of underlying covariance operator $K(\cdot, \cdot)$, $r$ is the truncation level and $\varepsilon_i(t)$ are iid error terms. 
 
