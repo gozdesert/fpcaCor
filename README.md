@@ -26,13 +26,14 @@ We want to focus on FPC analysis from a different angle. Now we consider given $
 
 ### What is left for the project 
 Main steps to finish the projects are: 
+
 Step 1: Construct sample correlation matrix $\widehat K \in \mathbb{R}^{T \times T}$ based on latent Gaussian copulas (see R package **latentcor**)
 
 Step 2: Smooth constructed correlation matrix to obtain smooth $\widetilde K$
 
 Step 3: Extract eigen-functions from $\widetilde K$
 
-Step 4 (optional): Get the scores on the latent level
+Step 4 (*optional*): Get the scores on the latent level
 
-Step 5 (optional): Use fitted $\widehat \mu(t) +\sum_{j=1}^r \xi_{ij}\phi_j(t)$ to get back to observed $X_i(t)$
+Step 5 (*optional*): Use fitted $\widehat \mu(t) +\sum_{j=1}^r \xi_{ij}\phi_j(t)$ to get back to observed $X_i(t)$
 
