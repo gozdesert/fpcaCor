@@ -3,5 +3,6 @@
 export(smooth_spline_mean)
 export(soft)
 import(fdapace)
+import(latentcor)
 import(refund)
 import(stats)
