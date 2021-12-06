@@ -6,6 +6,11 @@
 \usage{
 gaussian_copula_cor(n = 100, ntime = 50)
 }
+\arguments{
+\item{n}{A positive integer indicating the sample size. The default value is 100.}
+
+\item{ntime}{A positive integer indicating the number of time points. The default value is 50.}
+}
 \value{
 pointwise correlation matrix
 }
