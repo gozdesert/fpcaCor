@@ -2,6 +2,18 @@
 #We will get some parts of fpca.sc to get our smoothed correlation matrix
 #First we create our function
 
+#' Title
+#'
+#' @param Y
+#' @param argvals
+#' @param Khat
+#' @param cov.est.method
+#' @param useSymm
+#'
+#' @return
+#' @export
+#'
+#' @examples
 smooth_latentcor = function(Y = NULL, argvals = NULL, Khat = NULL, cov.est.method = 2, useSymm = TRUE){
   #Check Y is not null
   if(is.null(Y)){
@@ -20,7 +32,7 @@ smooth_latentcor = function(Y = NULL, argvals = NULL, Khat = NULL, cov.est.metho
   # if (cov.est.method == 2) {
   #   # smooth raw covariance estimate
   #   cov.sum = cov.count = cov.mean = matrix(0, D, D)
-  #   Ytilde = Y
+  #   Y.tilde = Y
   #   for (i in 1:I) {
   #     obs.points = which(!is.na(Y[i, ]))
   #     cov.count[obs.points, obs.points] = cov.count[obs.points, obs.points] + 1
