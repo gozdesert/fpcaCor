@@ -12,7 +12,9 @@ gaussian_copula_cor(n = 100, ntime = 50)
 \item{ntime}{A positive integer indicating the number of time points. The default value is 50.}
 }
 \value{
-pointwise correlation matrix
+A list with the elements
+\item{Y}{A n x ntime matrix for the Gaussian latent model
+\item{}{A ntime x ntime pointwise correlation matrix for the Gaussian latent model}
 }
 \description{
 Pointwise Correlation from Gaussian latent model
