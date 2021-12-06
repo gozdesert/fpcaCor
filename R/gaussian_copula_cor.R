@@ -2,8 +2,8 @@
 # We construct a sample correlation matrix using latentcor func
 #' Pointwise Correlation from Gaussian latent model
 #'
-#' @param n
-#' @param ntime
+#' @param n A positive integer indicating the sample size. The default value is 100.
+#' @param ntime A positive integer indicating the number of time points. The default value is 50.
 #' @return pointwise correlation matrix
 #' @export
 #'
