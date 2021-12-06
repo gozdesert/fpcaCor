@@ -17,5 +17,6 @@ Imports:
     stats,
     refund,
     fdapace,
-    latentcor
+    latentcor,
+    mgcv
 Config/testthat/edition: 3
