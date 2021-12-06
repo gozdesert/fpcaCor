@@ -28,6 +28,7 @@ smooth_latentcor = function(Y = NULL, argvals = NULL, Khat = NULL, cov.est.metho
   #       tcrossprod(Y.tilde[i, obs.points])  # in my case Ytilde = Y and we do not care about mu
   #   }
   #   ##This is our Khat now and we want to smooth Khat to get Ktilde
+  #    ## You need to call another function here: gaussian_copula_cor
   #   #G.0 = ifelse(cov.count == 0, NA, cov.sum/cov.count)
   #   #We do not need to use G.0 here because we have Khat
   #   G.0 = Khat
