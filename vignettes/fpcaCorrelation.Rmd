@@ -20,7 +20,7 @@ library(fpcaCor)
 ```
 
 ## Overview
-This is a brief introduction to the package **fpcaCor**. For a general overview on functional data analysis (FDA), see (Ramsey and Silverman, 2005). Specifically, we work on functional principal component analysis (FPCA) for dimension reduction of functional data. For more details, readers can look at  (@Yao:2003hd; @Goldsmith:2012ie; and @Xiao:2015jw). 
+This is a brief introduction to the package **fpcaCor**. For a general overview on functional data analysis (FDA), see (Ramsey and Silverman, 2005). Specifically, we work on functional principal component analysis (FPCA) for dimension reduction of functional data. For more details, readers can look at (@Yao:2003hd; @Goldsmith:2012ie; and @Xiao:2015jw). 
 
 Let $X_i(t)$ be the measurement for subject $i,$ where $i = 1, 2, \dots, n$ at time $t, \ t = 1,2 \dots, T$. By using the basic idea of FPCA based on the truncation of Karhunen-Loe've (KL) decomposition as 
 
@@ -39,13 +39,15 @@ Z_i(t) = \mu(t) + \sum_{j= 1}^r \xi_{ij}\phi_j(t) + \varepsilon_i(t).
 
 To get $X_i(t)$ back from $Z_i(t)$,  we use a strictly monotone transformation $f_t$ so that $f_t(X_i(t)) = Z_i(t)$ for continuous $X_i(t)$. 
 
+For the noncontinuous case, we will use corresponding latent models from @Yoon:2020hc. See the paper (@Yoon:2020hc) for more details. 
+
 ## R project implementation
 
 ## FPCA in R using fpcaCor
 
 ### Examples
 
-For the noncontinuous case, we will use corresponding latent models from @Yoon:2020hc. See the paper (@Yoon:2020hc) for more details. 
+
 
 ## 
 
