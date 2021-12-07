@@ -9,7 +9,7 @@
 #' @param pve  proportion of variance explained: used to choose the number of principal components. It should be supplied by users.The default is 0.99.
 #' @param npc  the number of principal components.if it is given, this overrides pve; the default is NULL.
 #'
-#' @return eigen-functions
+#' @return eigen-functions A list of vectors (eigen-vectors) of length I extracted from the smoothed correlation matrix.
 #' @export
 #'
 #' @examples
