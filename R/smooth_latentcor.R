@@ -2,7 +2,7 @@
 #We will get some parts of fpca.sc to get our smoothed correlation matrix
 #First we create our function
 
-#' Title
+#' Smoothed correlation matrix
 #'
 #' @param Y
 #' @param argvals
