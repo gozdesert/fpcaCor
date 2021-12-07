@@ -54,8 +54,7 @@ We obtained a matrix X with 100 many rows (sample size) and 50 many columns (num
 ## FPCA in R using fpcaCor
 
 ### Examples
-
-
+######Here we can (maybe) also talk about the gaussian_copula_cor function and give an example 
 
 ## 
 
