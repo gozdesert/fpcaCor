@@ -72,7 +72,7 @@ fpca.cor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 
   #now we obtain Ktilde and we want to extract the efunctions from Ktilde
   # Here the number of evalues or eigenfunctions is depend on the choice of pve or npc
   #I need to write another function for quadWeights
-  w = quadWeights(argvals = argvals, method = "trapezoidal")
+  w = my_quadWeights(argvals = argvals, method = "trapezoidal")
   Wsqrt <- diag(sqrt(w))
   Winvsqrt <- diag(1/(sqrt(w)))
   V <- Wsqrt %*% Ktilde %*% Wsqrt
@@ -82,8 +82,7 @@ fpca.cor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 
   # pve = proportion of variance explained: used to choose the number of principal components.
   npc = ifelse(is.null(npc), min(which(cumsum(evalues)/sum(evalues) > pve)), npc)
   #now we can find eigenfunctions of Ktilde matrix
-  efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[, seq(len = npc)],
-                      nrow = D, ncol = npc)
+  efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[, seq(len = npc)], nrow = D, ncol = npc)
   return(efunctions)
 }
 
