@@ -35,7 +35,7 @@ Extract eigen-functions from smoothed correlation matrix which comes from a Gaus
 }
 \examples{
 #Create a matrix
-X = matrix(rnorm(1000, ncol = 25))
+X = matrix(rnorm(1000), ncol = 25)
 fpca.cor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL)
 
 }
