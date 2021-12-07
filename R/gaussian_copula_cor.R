@@ -6,7 +6,7 @@
 #' @param ntime A positive integer indicating the number of time points. The default value is 50.
 #' @return A list with the elements
 #'   \item{Y}{A n x ntime matrix for the Gaussian latent model
-#'   \item{}{A ntime x ntime pointwise correlation matrix for the Gaussian latent model}
+#'   \item{Khat}{A ntime x ntime pointwise correlation matrix for the Gaussian latent model}
 #' @export
 #'
 #' @examples
