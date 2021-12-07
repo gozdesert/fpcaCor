@@ -3,7 +3,6 @@
 export(fpca.cor)
 export(gaussian_copula_cor)
 export(smooth_spline_mean)
-export(soft)
 import(fdapace)
 import(latentcor)
 import(mgcv)
