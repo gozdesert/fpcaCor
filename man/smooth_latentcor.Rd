@@ -14,10 +14,32 @@ smooth_latentcor(
 )
 }
 \arguments{
-\item{useSymm}{}
+\item{Y}{the user must supply \code{Y}, a matrix of functions
+observed on a regular grid.}
+
+\item{argvals}{the argument values of the function evaluations in \code{Y},
+defaults to a equidistant grid from 0 to 1.}
+
+\item{Khat}{Point-wise estimates of latent correlations for \code{Y}.
+This matrix is not guaranteed to be semi-positive definite.
+This is the original estimated latent correlation matrix without adjustment
+for positive-definiteness.}
+
+\item{cov.est.method}{covariance estimation method. If set to \code{1}, a
+one-step method that applies a bivariate smooth to the \eqn{y(s_1)y(s_2)}
+values. This can be very slow. If set to \code{2} (the default), a two-step
+method that obtains a naive covariance estimate which is then smoothed.}
+
+\item{useSymm}{logical, indicating whether to smooth only the upper
+triangular part of the naive covariance (when \code{cov.est.method==2}).
+This can save computation time for large data sets, and allows for
+covariance surfaces that are very peaked on the diagonal.}
+
+\item{nbasis}{number of B-spline basis functions used for estimation of the
+mean function and bivariate smoothing of the covariance surface.}
 }
 \value{
-
+Ktilde a smoothed correlation matrix
 }
 \description{
 Smoothed correlation matrix

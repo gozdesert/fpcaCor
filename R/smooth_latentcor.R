@@ -4,16 +4,30 @@
 
 #' Smoothed correlation matrix
 #'
-#' @param Y
-#' @param argvals
-#' @param Khat
-#' @param cov.est.method
-#' @param useSymm
+#' @param Y the user must supply \code{Y}, a matrix of functions
+#' observed on a regular grid.
+#' @param argvals  the argument values of the function evaluations in \code{Y},
+#'  defaults to a equidistant grid from 0 to 1.
+#' @param Khat Point-wise estimates of latent correlations for \code{Y}.
+#'  This matrix is not guaranteed to be semi-positive definite.
+#'  This is the original estimated latent correlation matrix without adjustment
+#'  for positive-definiteness.
+#' @param cov.est.method covariance estimation method. If set to \code{1}, a
+#' one-step method that applies a bivariate smooth to the \eqn{y(s_1)y(s_2)}
+#' values. This can be very slow. If set to \code{2} (the default), a two-step
+#' method that obtains a naive covariance estimate which is then smoothed.
+#' @param useSymm logical, indicating whether to smooth only the upper
+#' triangular part of the naive covariance (when \code{cov.est.method==2}).
+#' This can save computation time for large data sets, and allows for
+#' covariance surfaces that are very peaked on the diagonal.
+#' @param nbasis number of B-spline basis functions used for estimation of the
+#' mean function and bivariate smoothing of the covariance surface.
 #'
-#' @return
+#' @return Ktilde a smoothed correlation matrix
 #' @export
 #'
 #' @examples
+#'
 smooth_latentcor = function(Y = NULL, argvals = NULL, Khat = NULL, cov.est.method = 2, useSymm = TRUE, nbasis = 10){
   #Check Y is not null
   if(is.null(Y)){
