@@ -1,3 +1,22 @@
+#' Functional Principal Analysis using Correlation Matrix
+#'
+#'Extract eigen-functions from smoothed correlation matrix which comes from a Gaussian latent model.
+#'
+#' @param X a numeric matrix(I x D). It is supplied by user. Here I is the number of samples and D is the number of observations.
+#' @param types  a vector of length D representing the type of each of the D variables in \code{X}.For our case, it is "con". Users can learn about it here: \code{\link[latentcor]{latentcor}}.
+#' @param argvals the argument values of the function evaluations in Y, defaults to a equidistant grid from 0 to 1.
+#' @param nbasis number of B-spline basis functions used for estimation of the mean function and bivariate smoothing of the covariance surface.
+#' @param pve  proportion of variance explained: used to choose the number of principal components. It should be supplied by users.The default is 0.99.
+#' @param npc  the number of principal components.if it is given, this overrides pve; the default is NULL.
+#'
+#' @return eigen-functions
+#' @export
+#'
+#' @examples
+#' #Create a matrix
+#' X = matrix(rnorm(1000, ncol = 25))
+#' fpca.cor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL)
+#'
 fpca.cor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL){
 
   if(!is.matrix(X)){
