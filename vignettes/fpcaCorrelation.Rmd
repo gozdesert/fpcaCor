@@ -42,6 +42,14 @@ To get $X_i(t)$ back from $Z_i(t)$,  we use a strictly monotone transformation $
 For the noncontinuous case, we will use corresponding latent models from @Yoon:2020hc. See the paper (@Yoon:2020hc) for more details. 
 
 ## R project implementation
+### Getting Started
+First, we will generate variables with the same types, which all are continuous, using sample size $n = 100$ which will be our toy examples. To generate our toy example we will use the function `gen_data` from the R package `latentcor`. Here the number of types is 50.
+```{r}
+library(latentcor)
+Mydata.list = gen_data(n = 100, types = rep("con", 50), showplot = TRUE)
+X = Mydata.list$X   #this is data we want to use.
+```
+
 
 ## FPCA in R using fpcaCor
 
