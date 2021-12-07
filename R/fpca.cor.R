@@ -2,14 +2,15 @@
 #'
 #'Extract eigen-functions from smoothed correlation matrix which comes from a Gaussian latent model.
 #'
-#' @param X a numeric matrix(I x D). It is supplied by user. Here I is the number of samples and D is the number of observations.
-#' @param types  a vector of length D representing the type of each of the D variables in \code{X}.For our case, it is "con". Users can learn about it here: \code{\link[latentcor]{latentcor}}.
+#' @param X a numeric matrix (n x p). It is supplied by user. Here n is the number of samples and p is the number of observations.
+#' @param types  a vector of length p representing the type of each of the p variables in \code{X}. For our case, it is "con". Users can learn about it here: \code{\link[latentcor]{latentcor}}.
 #' @param argvals the argument values of the function evaluations in Y, defaults to a equidistant grid from 0 to 1.
 #' @param nbasis number of B-spline basis functions used for estimation of the mean function and bivariate smoothing of the covariance surface.
-#' @param pve  proportion of variance explained: used to choose the number of principal components. It should be supplied by users.The default is 0.99.
-#' @param npc  the number of principal components.if it is given, this overrides pve; the default is NULL.
+#' @param pve  proportion of variance explained: used to choose the number of principal components. It should be supplied by users.The default is 0.99. See \code{\link[refund]{fpca.sc}}.
+#' @param npc  the number of principal components.if it is given, this overrides pve; the default is NULL. \code{\link[refund]{fpca.sc}}.
 #'
-#' @return eigen-functions A list of vectors (eigen-vectors) of length I extracted from the smoothed correlation matrix.
+#' @return eigen-functions
+#'  A list of vectors (eigen-vectors) of length n extracted from the smoothed correlation matrix. Number of vectors depends on pve and npc(if it is given).
 #' @export
 #'
 #' @examples
