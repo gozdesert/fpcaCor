@@ -27,6 +27,11 @@
 #' @export
 #'
 #' @examples
+#' ## Generate a Gaussian latent data using the function gaussian_copula_cor
+#' mydata = gaussian_copula_cor(n = 100, ntime = 25)
+#' Y = mydata$Y
+#' Khat = mydata$Khat
+#' smooth_latent(Y = Y, Khat = Khat)  #all the other values are default
 #'
 smooth_latentcor = function(Y = NULL, argvals = NULL, Khat = NULL, cov.est.method = 2, useSymm = TRUE, nbasis = 10){
   #Check Y is not null
