@@ -84,6 +84,10 @@ fpca.cor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 
   npc = ifelse(is.null(npc), min(which(cumsum(evalues)/sum(evalues) > pve)), npc)
   #now we can find eigenfunctions of Ktilde matrix
   efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[, seq(len = npc)], nrow = D, ncol = npc)
+
+  ##CHANGE YOUR RETURN,
+  ##I decided to return not only eigen function also Khat Ktilde and evalues. So totally I want to have 4 results.
+
   return(efunctions)
 }
 
