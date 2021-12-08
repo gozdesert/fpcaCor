@@ -1,5 +1,5 @@
 ---
-title: "Getting started with R-package fpcaCor"
+title: "FPCA with R-package fpcaCor"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 vignette: >
@@ -43,15 +43,37 @@ For the noncontinuous case, we will use corresponding latent models from @Yoon:2
 
 ## R project implementation
 ### Getting Started
-First, we will generate variables with the same types, which all are continuous, using sample size $n = 100$ which will be our toy examples. To generate our toy example we will use the function `gen_data` from the R package `latentcor`. Here the number of types is 50.
+First, we will generate variables with the same types, which all are continuous, using sample size $n = 30$ which will be our toy examples. To generate our toy example we will use the function `gen_data` from the R package `latentcor`. Here the number of types is 20.
 ```{r}
 library(latentcor)
-Mydata.list = gen_data(n = 100, types = rep("con", 50), showplot = TRUE)
-X = Mydata.list$X   #this is data we want to use.
+Mydata.list = gen_data(n = 30, types = rep("con", 20))
+```
+The function `gen_data` gives two outputs (See \code{\link[latentcor]{gen_data}}). We only need the generated data matrix X.
+```{r}
+X = Mydata.list$X 
+head(X, n = 10)
 ```
 
-We obtained a matrix X with 100 many rows (sample size) and 50 many columns (number of variables). All the variables have the sample type (continuous). Now we can use our main function `fpcaCor` to do functional principal component analysis.
+We obtained a matrix X with 30 many rows (sample size) and 20 many columns (number of variables). All the variables have the sample type (continuous). 
+
 ## FPCA in R using fpcaCor
+
+Now we can use the function `fpcaCor` to get eigen-functions for obtained data (matrix X). The function `fpcaCor` follows several steps to extract eigen-functions. First, we get the estimated latent correlation matrix $\hat K$ which can be also obtained by using the function `latentcor`. Then we use the "B-spline basis functions" to smooth the correlation matrix $\hat K$. After we obtain the smoothed correlation matrix $\tilde K$, we can extract the eigen-function for given the proportion of variance explained (pve) or for given number of principal components (npc) if it is supplied.
+
+```{r}
+outputs = fpcaCor(X, pve = 0.95)  
+```
+
+Here we only want the proportion of variance explained is %95. Since we did not supply `npc`, it is obtained by using `pve` in the function `fpcaCor`.
+ 
+```{r}
+NPC = outputs$npc
+```
+
+
+ 
+
+
 
 ### Examples
 ######Here we can (maybe) also talk about the gaussian_copula_cor function and give an example 
