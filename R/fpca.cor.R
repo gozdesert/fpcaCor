@@ -18,9 +18,9 @@
 #' @examples
 #' #Create a matrix
 #' X = matrix(rnorm(1000), ncol = 25)
-#' fpca.cor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL)
+#' fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL)
 #'
-fpca.cor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL){
+fpcaCor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL){
 
   if(!is.matrix(X)){
     stop("X must be a matrix!")

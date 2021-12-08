@@ -50,7 +50,7 @@ Mydata.list = gen_data(n = 100, types = rep("con", 50), showplot = TRUE)
 X = Mydata.list$X   #this is data we want to use.
 ```
 
-We obtained a matrix X with 100 many rows (sample size) and 50 many columns (number of variables). All the variables have the sample type (continuous). Now we can use our main function `fpca.cor` to do functional principal component analysis.
+We obtained a matrix X with 100 many rows (sample size) and 50 many columns (number of variables). All the variables have the sample type (continuous). Now we can use our main function `fpcaCor` to do functional principal component analysis.
 ## FPCA in R using fpcaCor
 
 ### Examples
