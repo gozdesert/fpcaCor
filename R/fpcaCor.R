@@ -87,8 +87,7 @@ fpcaCor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 0
   #now we can find eigenfunctions of Ktilde matrix
   efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[, seq(len = npc)], nrow = D, ncol = npc)
   evalues = eigen(V, symmetric = TRUE, only.values = TRUE)$values[1:npc]
-  cov.hat = efunctions %*% tcrossprod(diag(evalues, nrow = npc, ncol = npc), efunctions)
-  eigenfuncs = cov.hat
+  eigenfuncs = efunctions %*% tcrossprod(diag(evalues, nrow = npc, ncol = npc), efunctions)
   return(list(eigenfuncs = eigenfuncs, npc = npc))
 }
 
