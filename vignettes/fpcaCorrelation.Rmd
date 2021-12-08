@@ -68,6 +68,7 @@ Here we only want the proportion of variance explained is %95. Since we did not 
  
 ```{r}
 NPC = outputs$npc
+print(NPC)
 ```
 
 
