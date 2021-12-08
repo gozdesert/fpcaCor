@@ -9,8 +9,10 @@
 #' @param pve  proportion of variance explained: used to choose the number of principal components. It should be supplied by users.The default is 0.99. See \code{\link[refund]{fpca.sc}}.
 #' @param npc  the number of principal components.if it is given, this overrides pve; the default is NULL. \code{\link[refund]{fpca.sc}}.
 #'
-#' @return eigen-functions
-#'  A list of vectors (eigen-vectors) of length n extracted from the smoothed correlation matrix. Number of vectors depends on pve and npc(if it is given).
+#' @return A list with the elements
+#'   \item{npc}{The number of principal components. If it is given, the given value. Otherwise it is calculated in the function based on given \code{pve}}
+#'   \item{eigenfuncs}{A (n x npc) matrix where its colums are eigenfunction extracted from the smoothed correlation matrix.}
+#'
 #' @export
 #'
 #' @examples
@@ -84,11 +86,10 @@ fpca.cor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 
   npc = ifelse(is.null(npc), min(which(cumsum(evalues)/sum(evalues) > pve)), npc)
   #now we can find eigenfunctions of Ktilde matrix
   efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[, seq(len = npc)], nrow = D, ncol = npc)
-
-  ##CHANGE YOUR RETURN,
-  ##I decided to return not only eigen function also Khat Ktilde and evalues. So totally I want to have 4 results.
-
-  return(efunctions)
+  evalues = eigen(V, symmetric = TRUE, only.values = TRUE)$values[1:npc]
+  cov.hat = efunctions %*% tcrossprod(diag(evalues, nrow = npc, ncol = npc), efunctions)
+  eigenfuncs = cov.hat
+  return(list(eigenfuncs = eigenfuncs, npc = npc))
 }
 
 
