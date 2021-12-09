@@ -3,7 +3,7 @@
 #'Extract eigen-functions from smoothed correlation matrix which comes from a Gaussian latent model.
 #'
 #' @param X a numeric matrix (n x p). It is supplied by user. Here n is the number of samples and p is the number of observations.
-#' @param types  a vector of length p representing the type of each of the p variables in \code{X}. For our case, it is "con". Users can learn about it here: \code{\link[latentcor]{latentcor}}.
+#' @param types  a vector of length p representing the type of each of the p variables in \code{X}. For our case, it is "con". Users can learn more about it here: \code{\link[latentcor]{latentcor}}.
 #' @param argvals the argument values of the function evaluations in Y, defaults to a equidistant grid from 0 to 1.
 #' @param nbasis number of B-spline basis functions used for estimation of the mean function and bivariate smoothing of the covariance surface.
 #' @param pve  proportion of variance explained: used to choose the number of principal components. It should be supplied by users.The default is 0.99. See \code{\link[refund]{fpca.sc}}.
