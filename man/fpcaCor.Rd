@@ -16,7 +16,7 @@ fpcaCor(
 \arguments{
 \item{X}{a numeric matrix (n x p). It is supplied by user. Here n is the number of samples and p is the number of observations.}
 
-\item{types}{a vector of length p representing the type of each of the p variables in \code{X}. For our case, it is "con". Users can learn about it here: \code{\link[latentcor]{latentcor}}.}
+\item{types}{a vector of length p representing the type of each of the p variables in \code{X}. For our case, it is "con". Users can learn more about it here: \code{\link[latentcor]{latentcor}}.}
 
 \item{argvals}{the argument values of the function evaluations in Y, defaults to a equidistant grid from 0 to 1.}
 
