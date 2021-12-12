@@ -22,9 +22,9 @@ fpcaCor(
 
 \item{nbasis}{number of B-spline basis functions used for estimation of the mean function and bivariate smoothing of the covariance surface.}
 
-\item{pve}{proportion of variance explained: used to choose the number of principal components. It should be supplied by users.The default is 0.99. See \code{\link[refund]{fpca.sc}}.}
+\item{pve}{proportion of variance explained: used to choose the number of principal components. It should be supplied by users.The default is 0.99. (See \code{\link[refund]{fpca.sc}}.)}
 
-\item{npc}{the number of principal components.if it is given, this overrides pve; the default is NULL. \code{\link[refund]{fpca.sc}}.}
+\item{npc}{the number of principal components.if it is given, this overrides pve; the default is NULL. (See \code{\link[refund]{fpca.sc}}.)}
 }
 \value{
 A list with the elements
