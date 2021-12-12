@@ -61,7 +61,7 @@ We obtained a matrix X with 30 many rows (sample size) and 20 many columns (numb
 Now we can use the function `fpcaCor` to get eigen-functions for obtained data (matrix X). The function `fpcaCor` follows several steps to extract eigen-functions. First, we get the estimated latent correlation matrix $\hat K$ which can be also obtained by using the function `latentcor`. Then we use the "B-spline basis functions" to smooth the correlation matrix $\hat K$. After we obtain the smoothed correlation matrix $\tilde K$, we can extract the eigen-function for given the proportion of variance explained (pve) or for given number of principal components (npc) if it is supplied.
 
 ```{r}
-outputs = fpcaCor(X, pve = 0.95)  
+outputs = fpcaCor(X, pve = 0.99)  
 ```
 
 Here we only want the proportion of variance explained is %95. Since we did not supply `npc`, it is obtained by using `pve` in the function `fpcaCor`.
