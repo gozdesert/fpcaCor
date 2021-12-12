@@ -29,7 +29,7 @@ fpcaCor(
 \value{
 A list with the elements
 \item{npc}{The number of principal components. If it is given, the given value. Otherwise it is calculated in the function based on given \code{pve}}
-\item{eigenfuncs}{A (n x npc) matrix where its colums are eigenfunction extracted from the smoothed correlation matrix.}
+\item{eigenfuncs}{A (p x npc) matrix where its colums are eigenfunction extracted from the smoothed correlation matrix.}
 }
 \description{
 Extract eigen-functions from smoothed correlation matrix which comes from a Gaussian latent model.
