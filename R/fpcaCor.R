@@ -16,9 +16,14 @@
 #' @export
 #'
 #' @examples
+#' To see the difference when we have 2 different pve values.
 #' #Create a matrix
 #' X = matrix(rnorm(1000), ncol = 25)
+#' #Example 1
 #' fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL)
+#'
+#'#Example 2
+#'fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.95, npc = NULL)
 #'
 fpcaCor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL){
 
