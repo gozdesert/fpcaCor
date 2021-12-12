@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 # fpcaCor
 
-We want to focus on FPC analysis from a different angle. Now we consider given $X_i(t)$, $t=1, \dots, T$, $i = 1, \dots, n$. For simplicity, we will assume that the data start with the same time points $t$ across subjects and equi-distant time points. Instead of covariance matrix, we want to work on sample correlation matrix $\hat{K} \in \mathbb{R}^{T \times T}$ based on latent Gaussian copulas. Then by finding appropriate method to smooth $\tilde{K}$, we will obtain the eigenvalues. This is the main goal of the project.
+We want to focus on FPC analysis from a different angle. Now we consider given $X_i(t)$, $t=1, \dots, T$, $i = 1, \dots, n$. For simplicity, we will assume that the data start with the same time points $t$ across subjects and equi-distant time points. Instead of covariance matrix, we want to work on sample correlation matrix $\hat{K} \in \mathbb{R}^{T \times T}$ based on latent Gaussian copulas. Then by finding appropriate method to smooth $\tilde{K}$, we will obtain the eigen-functions. This is the main goal of the project.
 
 ## Installation
 
@@ -31,5 +31,11 @@ devtools::install_github("gozdesert/fpcaCor")
 ```{r example}
 library(fpcaCor)
 ## basic example code
+set.seed(46933)
+### Generate data using the function "gaussian_copula_cor" :
+n = 33  # number of samples
+ntime = 20  # number of time points
+Mydata.X = gaussian_copula_cor(n = 33, ntime = 20)$Y   #A n x ntime matrix for the Gaussian latent model
+fpcaCor(X = Mydata.X, pve = 0.999999)  #Default value for pve = 0.99
 ```
 
