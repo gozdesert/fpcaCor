@@ -6,7 +6,7 @@
 #'
 #' @return a vector of quadrature weights for the points supplied in argvals.
 #'
-#'
+#' @noRd
 #'
 my_quadWeights<- function(argvals, method = "trapezoidal")
 {
