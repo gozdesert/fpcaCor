@@ -1,15 +1,25 @@
+fpcaCor: Functional Data Analysis with Correlation Matrix
+================
+Gozde Sert
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # fpcaCor
 
+The R package “fpcaCor” has one main function ‘fpcaCor’. For given data
+matrix X, it extracts the eigen-functions for a given ‘pve’ or supplied
+‘pcv’.
+
+## Introduction
+
 We consider given *X*<sub>*i*</sub>(*t*), *t* = 1, …, *T*,
 *i* = 1, …, *n*. For simplicity, we will assume that the data start with
 the same time points *t* across subjects and equi-distant time points.
-Instead of covariance matrix, we want to work on sample correlation
+Instead of covariance matrix, we want to work on a sample correlation
 matrix *K̂* ∈ ℝ<sup>*T* × *T*</sup> based on latent Gaussian copulas.
-Then by finding appropriate method to smooth *K̃*, we will obtain the
-eigen-functions. This is the main goal of the project.
+Then by finding appropriate method to get a smooth *K̃* from the
+correlation matrix $, we will obtain the eigen-functions of *K̃* . The
+function “fpcacor” extract eigen-functions of the smoothed matrix *K̃*.
 
 ## Installation
 
