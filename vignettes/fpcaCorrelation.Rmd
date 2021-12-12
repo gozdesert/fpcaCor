@@ -41,44 +41,88 @@ To get $X_i(t)$ back from $Z_i(t)$,  we use a strictly monotone transformation $
 
 For the noncontinuous case, we will use corresponding latent models from @Yoon:2020hc. See the paper (@Yoon:2020hc) for more details. 
 
-## R project implementation
+## R implementation
 ### Getting Started
-First, we will generate variables with the same types, which all are continuous, using sample size $n = 30$ which will be our toy examples. To generate our toy example we will use the function `gen_data` from the R package `latentcor`. Here the number of types is 20.
+First, we will generate variables with the same types, which all are continuous, using sample size $n = 20$ which will be our toy examples. To generate our toy example we will use the function `gen_data` from the R package `latentcor`. Here the number of types is 50.
 ```{r}
 library(latentcor)
-Mydata.list = gen_data(n = 30, types = rep("con", 20))
+set.seed(326435)
+Mydata.list = gen_data(n = 20, types = rep("con", 50))
 ```
-The function `gen_data` gives two outputs (See \code{\link[latentcor]{gen_data}}). We only need the generated data matrix X.
+The function `gen_data` gives two outputs (See `?gen_data`). We only need the generated data matrix X.
 ```{r}
 X = Mydata.list$X 
-head(X, n = 10)
+head(X, n = 6)
 ```
 
-We obtained a matrix X with 30 many rows (sample size) and 20 many columns (number of variables). All the variables have the sample type (continuous). 
+We obtained a matrix X with 20 many rows (sample size) and 50 many columns (number of variables). All the variables have the sample type (continuous). 
 
 ## FPCA in R using fpcaCor
 
 Now we can use the function `fpcaCor` to get eigen-functions for obtained data (matrix X). The function `fpcaCor` follows several steps to extract eigen-functions. First, we get the estimated latent correlation matrix $\hat K$ which can be also obtained by using the function `latentcor`. Then we use the "B-spline basis functions" to smooth the correlation matrix $\hat K$. After we obtain the smoothed correlation matrix $\tilde K$, we can extract the eigen-function for given the proportion of variance explained (pve) or for given number of principal components (npc) if it is supplied.
 
 ```{r}
-outputs = fpcaCor(X, pve = 0.99)  
+output1 = fpcaCor(X, pve = 0.99)  
 ```
 
-Here we only want the proportion of variance explained is %95. Since we did not supply `npc`, it is obtained by using `pve` in the function `fpcaCor`.
+Here we only want 99% of the variance to be explained. Since we did not supply `npc`, it is obtained by using `pve` in the function `fpcaCor`.
  
 ```{r}
-NPC = outputs$npc
+NPC = output1$npc
 print(NPC)
 ```
 
+Now we can see our eigen-functions.
+```{r}
+print(output1$eigenfuncs)
+```
 
+If we change the value of `pve` to get 99.99% of the variance, we obtain a new NPC value:
+```{r}
+output2 = fpcaCor(X, pve = 0.9999)  
+NPCnew = output2$npc
+print(NPCnew)
+```
+This also changes our eigen-function:
+```{r}
+print(output2$eigenfuncs)
+```
  
+On the other hand, we can supply `pnc` but notice that `pnc` cannot larger than the number of columns of X. For more details see `fpcaCor`.
+
+```{r}
+p = ncol(X)
+print(p)
+output3 = fpcaCor(X, npc = 10) 
+```
+Since we picked **npc = 10**, we will have 10 many eigen-functions.
+```{r}
+eigenfuncs= output3$eigenfuncs
+print(eigenfuncs)
+```
+### Example with iris dataset
+We use the built-in dataset `iris`:
+
+```{r}
+head(iris)
+```
+Since the last column is a string, we remove it from consideration. Since the original data has a small number of columns, we create additional features by taking linear combinations of the given columns. 
+
+```{r}
+iris_mat <- as.matrix(iris[, -5])
+```
+Since the original data has a small number of columns, we create additional features by taking linear combinations of the given columns. 
+```{r}
+iris_mat = cbind(iris_mat, iris_mat[, 1] + 3 * iris_mat[, 2]) 
+iris_mat = cbind(iris_mat, iris_mat[, 5] - iris_mat[, 3])
+iris_mat = cbind(iris_mat, iris_mat[, 2] + iris_mat[, 3] + 20 * iris_mat[, 4]) 
+```
+Now we can use `fpcaCor` to extract eigen-functions:
+```{r}
+iris_result = fpcaCor(iris_mat, nbasis = 3, pve = 0.99)  
+print(iris_result)
+```
 
 
-
-### Examples
-######Here we can (maybe) also talk about the gaussian_copula_cor function and give an example 
-
-## 
 
 # References
