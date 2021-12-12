@@ -1,0 +1,35 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# fpcaCor
+
+We want to focus on FPC analysis from a different angle. Now we consider given $X_i(t)$, $t=1, \dots, T$, $i = 1, \dots, n$. For simplicity, we will assume that the data start with the same time points $t$ across subjects and equi-distant time points. Instead of covariance matrix, we want to work on sample correlation matrix $\hat{K} \in \mathbb{R}^{T \times T}$ based on latent Gaussian copulas. Then by finding appropriate method to smooth $\tilde{K}$, we will obtain the eigenvalues. This is the main goal of the project.
+
+## Installation
+
+You can install the development version of fpcaCor from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("gozdesert/fpcaCor")
+```
+
+## Example
+
+```{r example}
+library(fpcaCor)
+## basic example code
+```
+
