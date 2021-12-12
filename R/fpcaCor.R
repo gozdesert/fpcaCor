@@ -17,13 +17,17 @@
 #'
 #' @examples
 #' #To see the difference when we have 2 different pve values.
-#' #Create a matrix
-#' X = matrix(rnorm(1000), ncol = 25)
+#' # set.seed(53787)
+#' #Create a matrix from Gaussian latent data (See \code{\link[fpcaCor]{gaussian_copula_cor}})
+#' X = gaussian_copula_cor(n = 10, ntime = 30)$Y
 #' #Example 1
-#' fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL)
-#'
-#'#Example 2
-#'fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.95, npc = NULL)
+#' output1 = fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL)
+#' ## Change pve value to obtain a different number of eigen-functions.
+#' #Example 2
+#'output2 = fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.95, npc = NULL)
+#' #Example 3
+#' #If pnc is supplied by user. (noc overrides pve.)
+#' output3 = fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.95, npc = 5)
 #'
 fpcaCor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL){
 
