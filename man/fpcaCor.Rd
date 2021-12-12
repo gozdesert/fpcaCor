@@ -35,7 +35,7 @@ A list with the elements
 Extract eigen-functions from smoothed correlation matrix which comes from a Gaussian latent model.
 }
 \examples{
-To see the difference when we have 2 different pve values.
+#To see the difference when we have 2 different pve values.
 #Create a matrix
 X = matrix(rnorm(1000), ncol = 25)
 #Example 1
