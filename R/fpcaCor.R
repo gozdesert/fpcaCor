@@ -26,7 +26,7 @@
 #' #Example 2
 #'output2 = fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.95, npc = NULL)
 #' #Example 3
-#' #If pnc is supplied by user. (noc overrides pve.)
+#' #If pnc is supplied by user. (npc overrides pve.)
 #' output3 = fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.95, npc = 5)
 #'
 fpcaCor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL){

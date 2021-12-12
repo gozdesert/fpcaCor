@@ -37,7 +37,7 @@ Extract eigen-functions from smoothed correlation matrix which comes from a Gaus
 \examples{
 #To see the difference when we have 2 different pve values.
 # set.seed(53787)
-#Create a matrix from Gaussian latent data (See \code{\link[fpcaCor]{gaussian_copula_cor}})
+#Create a matrix from Gaussian latent data
 X = gaussian_copula_cor(n = 10, ntime = 30)$Y
 #Example 1
 output1 = fpcaCor(X = X, types = "con", argvals = NULL, nbasis = 10, pve = 0.99, npc = NULL)
