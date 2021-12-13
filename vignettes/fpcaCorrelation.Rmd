@@ -43,7 +43,7 @@ For the noncontinuous case, we will use corresponding latent models from @Yoon:2
 
 ## R implementation
 ### Getting Started
-First, we will generate variables with the same types, which all are continuous, using sample size $n = 20$ which will be our toy examples. To generate our toy example we will use the function `gen_data` from the R package `latentcor`. Here the number of types is 50.
+First, we will generate variables with the same types, which all are continuous, using sample size $n = 20$ which will be our toy examples. To generate our toy example we will use the function `gen_data` from the R package [`latentcor`](https://cran.r-project.org/web/packages/latentcor/vignettes/latentcor.html). Here the number of types is 50.
 ```{r}
 library(latentcor)
 set.seed(326435)
@@ -59,7 +59,7 @@ We obtained a matrix X with 20 many rows (sample size) and 50 many columns (numb
 
 ## FPCA in R using fpcaCor
 
-Now we can use the function `fpcaCor` to get eigen-functions for obtained data (matrix X). The function `fpcaCor` follows several steps to extract eigen-functions. First, we get the estimated latent correlation matrix $\hat K$ which can be also obtained by using the function `latentcor`. Then we use the "B-spline basis functions" to smooth the correlation matrix $\hat K$. After we obtain the smoothed correlation matrix $\tilde K$, we can extract the eigen-function for given the proportion of variance explained (pve) or for given number of principal components (npc) if it is supplied.
+Now we can use the function `fpcaCor` to get eigen-functions for obtained data (matrix X). The function `fpcaCor` follows several steps to extract eigen-functions. First, we get the estimated latent correlation matrix $\hat K$ which can be also obtained by using the function [`latentcor`](https://cran.r-project.org/web/packages/latentcor/vignettes/latentcor.html). Then we use the "B-spline basis functions" to smooth the correlation matrix $\hat K$. After we obtain the smoothed correlation matrix $\tilde K$, we can extract the eigen-function for given the proportion of variance explained (pve) or for given number of principal components (npc) if it is supplied.
 
 ```{r}
 output1 = fpcaCor(X, pve = 0.99)  
