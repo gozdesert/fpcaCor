@@ -83,7 +83,7 @@ output2 = fpcaCor(X, pve = 0.9999)
 NPCnew = output2$npc
 print(NPCnew)
 ```
-This also changes our eigen-function:
+This also changes our eigen-functions:
 ```{r}
 head(output2$eigenfuncs)
 ```
