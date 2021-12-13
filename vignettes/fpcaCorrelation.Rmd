@@ -74,7 +74,7 @@ print(NPC)
 
 Now we can see our eigen-functions.
 ```{r}
-print(output1$eigenfuncs)
+head(output1$eigenfuncs)
 ```
 
 If we change the value of `pve` to get 99.99% of the variance, we obtain a new NPC value:
@@ -85,7 +85,7 @@ print(NPCnew)
 ```
 This also changes our eigen-function:
 ```{r}
-print(output2$eigenfuncs)
+head(output2$eigenfuncs)
 ```
  
 On the other hand, we can supply `pnc` but notice that `pnc` cannot larger than the number of columns of X. For more details see `fpcaCor`.
@@ -98,7 +98,7 @@ output3 = fpcaCor(X, npc = 10)
 Since we picked **npc = 10**, we will have 10 many eigen-functions.
 ```{r}
 eigenfuncs= output3$eigenfuncs
-print(eigenfuncs)
+head(eigenfuncs)
 ```
 ### Example with iris dataset
 We use the built-in dataset `iris`:
