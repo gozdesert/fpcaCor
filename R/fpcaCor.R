@@ -98,6 +98,7 @@ fpcaCor = function(X = NULL, types = "con", argvals = NULL, nbasis = 10, pve = 0
   #evalues = eigen(V, symmetric = TRUE, only.values = TRUE)$values[1:npc]
   #Kdoubletilde = efunctions %*% tcrossprod(diag(evalues, nrow = npc, ncol = npc), efunctions)
   return(list(eigenfuncs = efunctions, npc = npc))
+  #deneme
 }
 
 
