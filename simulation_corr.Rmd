@@ -1,0 +1,723 @@
+---
+title: "Simulation_Correlation"
+author: "Gozde Sert"
+date: "2/7/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Let $X_i(t)$ be the measurement for subject $i$, $i=1,\dots, n$, at time $t$, $t=1, \dots, T$. FPCA is based on truncation of Karhunen-Lo\'eve (KL) decomposition  as 
+$$
+X_i(t) = M_i(t) +\varepsilon_i(t) = \mu(t) + \sum_{j=1}^r \xi_{ij}\phi_j(t) + \varepsilon_i(t),
+$$
+where $\mu(t)$ is the overall mean, $\xi_{ij}$ are subject-specific scores, $\phi_j(t)$ are eigen-functions of underlying covariance operator $K(\cdot, \cdot)$, $r$ is the truncation level and $\varepsilon_i(t)$ are $i.i.d.$ error terms.
+
+The functions $\phi_j(\cdot)$ are typically estimated as the first $r$ eigen-vectors of $T\times T$ smoothed sample covariance matrix $\widetilde K$. The scores $\xi_i$ are typically estimated as best linear unbiased predictors using the estimated $\phi_j(\cdot)$ together with observed $X_i(t)$. It is common to choose the truncation level $r$ to explain a fixed percentage of variability.
+
+### Simulation Studies
+We will use *Stauci(2011)'s* sumilation studies to generate our functional data:
+We will start with a very basic structure. 
+
+**Case 1:** Take $\mu = 0$:
+
+Set up:
+```{r}
+n = 200
+r = 3 
+tp = seq(from = 0, to = 1, len = 80) #time points
+
+```
+
+Then we choose our eigen-functions and their coefficients:
+ 
+ (i) $\phi_1(t) = \sqrt{3}(2t^2 -1)$
+ (ii)  $\phi_2(t) = \sqrt{5}(6t^2 -6t +1)$
+ (iii) $\phi_3(t) = \sqrt{7}(20t^3 -30t^2 +12t -1)$
+ 
+ and the coefficients $\xi_k = (1/2)^{l-1}$ where $k = 1,2,3.$ Lastly the error terms $\epsilon_i(t)$ are independent $N(0, \sigma^2 = 0.1)$
+```{r}
+error_terms = rnorm(length(tp), mean = 0, sd = 0.1)
+```
+ 
+ 
+True value of eigen-functions:
+```{r}
+eigenf1 = sqrt(3)*(2*tp^2 - 1)
+eigenf2 = sqrt(5)*(6*tp^2 -6*tp + 1)
+eigenf3 = sqrt(7)*(20*tp^3 - 30*tp^2 + 12*tp - 1)
+```
+
+The coefficients $\xi_k = $:
+```{r}
+xi_1 = 1
+xi_2 = 1/2
+xi_3 = 1/4
+```
+**Correction:** not coefficients but standard deviation of coefficients!!
+
+
+Then our first observation $X_i(t)$:
+```{r}
+obsv1 = rnorm(1, sd = 1)*eigenf1 + rnorm(1, sd = 1/2)*eigenf2 + rnorm(1, sd = 1/4)*eigenf3 + error_terms 
+```
+
+Now we plot observation 1 
+```{r}
+plot(x = tp, y = obsv1, type = "l")
+```
+
+Now we want to repeat this process 200 times. Let's create a (200x80)-matrix:
+```{r}
+set.seed(46933)
+simdata_mat = matrix(NA, nrow = n, ncol = length(tp))
+for (i in 1:n) {
+ simdata_mat[i, ] = rnorm(1, sd = 1)*eigenf1 + rnorm(1, sd = 1/2)*eigenf2 + rnorm(1, sd = 1/4)*eigenf3 + rnorm(length(tp), mean = 0, sd = 0.5)
+}
+
+```
+
+
+```{r}
+plot(x = tp, y = simdata_mat[27, ], type ="l")
+```
+
+Then we see the rows on same plot: Specifically we pick rows =$2, 3, 5, 7, 11, 13.$
+```{r}
+ymax = max(simdata_mat)
+ymin = min(simdata_mat)
+# we also plot the mean
+mu_mean = colMeans(simdata_mat)
+plot(x = tp, y = simdata_mat[1, ], type = "l", ylim = c(ymin, ymax), col = "green")
+lines(tp, simdata_mat[3, ], col = "deeppink1" )
+lines(tp, simdata_mat[5, ], col ="blue2") 
+lines(tp, simdata_mat[7, ], col ="purple1")
+lines(tp, simdata_mat[11, ], col ="orange2") 
+lines(tp, simdata_mat[13, ], col ="red") 
+lines(tp, mu_mean, lwd = 2) 
+
+```
+
+
+I want to change the coefficients of eigen-functions: make them random:
+
+
+```{r}
+set.seed(46933)
+N = 30
+simdata_ran = matrix(NA, nrow = N, ncol = length(tp))
+for (i in 1:N) {
+ simdata_ran[i, ] = rnorm(1)*eigenf1 + 
+         rnorm(1)*eigenf2 + 
+         rnorm(1)*eigenf3 + 
+         rnorm(length(tp), mean = 0, sd = 0.5)
+}
+```
+
+Plot:
+
+```{r}
+ymax = max(simdata_ran)
+ymin = min(simdata_ran)
+plot(x = tp, y = simdata_ran[2, ], type = "l", ylim = c(ymin, ymax), col = "green")
+lines(tp, simdata_ran[3, ], col = "deeppink1" )
+lines(tp, simdata_ran[5, ], col ="blue2") 
+lines(tp, simdata_ran[7, ], col ="purple1")
+lines(tp, simdata_ran[11, ], col ="orange2") 
+lines(tp, simdata_ran[13, ], col ="red") 
+lines(tp, colMeans(simdata_ran), lwd = 2) 
+```
+
+#### After talking to Dr. Gaynanova: 
+
+```{r}
+# we need to pick our coefficients lambda's = 
+lambda1 = rnorm(1, sd = 1)
+lambda2 = rnorm(1, sd = 1/2)
+lambda3 = rnorm(1, sd = 1/4)
+```
+
+
+```{r}
+set.seed(46933)
+N = 200
+simdata = matrix(NA, nrow = N, ncol = length(tp))
+for (i in 1:N) {
+ simdata[i, ] = rnorm(1, sd = 1)*eigenf1 + 
+                rnorm(1, sd = 1/2)*eigenf2 +
+                rnorm(1, sd = 1/4)*eigenf3 + 
+                rnorm(length(tp), mean = 0, sd = 0.1)
+}
+```
+
+```{r}
+ymax = max(simdata)
+ymin = min(simdata)
+plot(x = tp, y = simdata[2, ], type = "l", main = "simulated data without transformation ", ylim = c(ymin, ymax), col = "green")
+lines(tp, simdata[3, ], col = "deeppink1" )
+lines(tp, simdata[5, ], col ="blue2") 
+lines(tp, simdata[7, ], col ="purple1")
+lines(tp, simdata[11, ], col ="orange2") 
+lines(tp, simdata[13, ], col ="red") 
+lines(tp, colMeans(simdata), lwd = 2) 
+```
+
+
+Now we want to apply a transformation it can be $e^x$ or any power function like  $x^3$.
+
+#### try: $e^x$
+
+
+```{r}
+X =matrix(1:6, nrow = 2)
+exp(X)
+```
+
+```{r}
+exp_trans_simdata = exp(simdata)
+```
+
+Now plot the data
+
+```{r}
+ymax = max(exp_trans_simdata[c(2,3,5,7,11,13), ])
+ymin = min(exp_trans_simdata[c(2,3,5,7,11,13), ])
+plot(x = tp, y = exp_trans_simdata[2, ], type = "l", main = "simulated data after exponential transformation ", ylim = c(ymin, ymax), col = "green")
+lines(tp, exp_trans_simdata[3, ], col = "deeppink1" )
+lines(tp, exp_trans_simdata[5, ], col ="blue2") 
+lines(tp, exp_trans_simdata[7, ], col ="purple1")
+lines(tp, exp_trans_simdata[11, ], col ="orange2") 
+lines(tp, exp_trans_simdata[13, ], col ="red") 
+```
+
+To make the plot more interesting, i will use slightly more "useful" rows: I chose them arbitrarly 
+
+```{r}
+#plot(x = tp, y = trans_simdata[113, ], type = "l", ylim = c(ymin, ymax), col = "green")
+#16 good
+#17 good
+# 63
+#113
+ymax = max(exp_trans_simdata[c(11,13,16,17,63,113), ])
+ymin = min(exp_trans_simdata[c(11,13,16,17,63,113), ])
+plot(x = tp, y = exp_trans_simdata[27, ], type = "l", main = "simulated data after exponential transformation ", ylim = c(ymin, ymax), col = "green")
+lines(tp, exp_trans_simdata[113, ], col = "deeppink1" )
+lines(tp, exp_trans_simdata[16, ], col ="blue2") 
+lines(tp, exp_trans_simdata[17, ], col ="purple1")
+lines(tp, exp_trans_simdata[11, ], col ="orange2") 
+lines(tp, exp_trans_simdata[13, ], col ="red") 
+```
+
+Now let's do the same transformation buy using a power function: For example: $x^3$
+
+```{r}
+cube_simdata = simdata^3
+ymax = max(cube_simdata[c(11,13, 16,17,63,113), ])
+ymin = min(cube_simdata[c(11,13, 16,17,63,113), ])
+plot(x = tp, y = cube_simdata[61, ], type = "l", main = "simulated data after cubic transformation ", ylim = c(ymin, ymax), col = "green")
+lines(tp, cube_simdata[113, ], col = "deeppink1" )
+lines(tp, cube_simdata[16, ], col ="blue2") 
+lines(tp, cube_simdata[17, ], col ="purple1")
+lines(tp, cube_simdata[11, ], col ="orange2") 
+lines(tp, cube_simdata[13, ], col ="red") 
+```
+
+### If we go back to project: 
+Now I created your functional data $X_i(t)$, where $i \in \{1,2, \dots, N$ and picked a transformation $f(.)$ (in this case i have two transformations  $e^x$ and $x^3$. These are strictly increasing functions. To see the case where f is strictly decreasing function we use $f(x) = e^{-x}$): 
+
+
+```{r}
+e_simdata = exp(-simdata)
+ymax = max(e_simdata[c(11,13,16,17,63,113), ])
+ymin = min(e_simdata[c(11,13,16,17,63,113), ])
+plot(x = tp, y = e_simdata[61, ], type = "l", main = "simulated data after negative exponential transformation ", ylim = c(ymin, ymax), col = "green")
+lines(tp, e_simdata[113, ], col = "deeppink1" )
+lines(tp, e_simdata[16, ], col ="blue2") 
+lines(tp, e_simdata[17, ], col ="purple1")
+lines(tp, e_simdata[11, ], col ="orange2") 
+lines(tp, e_simdata[13, ], col ="red") 
+```
+
+### look at the sin-cos function case:
+If we want to consider a periodic changes, we need to choose functions as a combination
+of $\cos(x)$ or $\sin(x)$. 
+
+Again we will take the eigen-functions from Stauci(2012) as a basis example:
+
+Consider the following eigen-functions:
+
+```{r}
+eifun1 = sqrt(2)*sin(2*pi*tp)
+eifun2 = sqrt(2)*cos(4*pi*tp)
+eifun3 = sqrt(2)*sin(4*pi*tp)
+```
+
+
+To obtain a functional data: 
+```{r}
+set.seed(46933)
+N = 200
+simpdata = matrix(NA, nrow = N, ncol = length(tp))
+for (i in 1:N) {
+ simpdata[i, ] = rnorm(1, sd = 1)*eifun1 + 
+         rnorm(1, sd = 1/2)*eifun2 + 
+         rnorm(1, sd = 1/4)*eifun3 + 
+         rnorm(length(tp), mean = 0, sd = 0.1)
+}
+```
+
+Now plot the data:
+
+```{r}
+ymax = max(simpdata[c(2,3,5,7,11,13), ])
+ymin = min(simpdata[c(2,3,5,7,11,13), ])
+plot(x = tp, y = simpdata[2, ], type = "l", main = "simulated data", ylim = c(ymin, ymax), col = "green")
+lines(tp, simpdata[3, ], col = "deeppink1" )
+lines(tp, simpdata[5, ], col ="blue2") 
+lines(tp, simpdata[7, ], col ="purple1")
+lines(tp, simpdata[11, ], col ="orange2") 
+lines(tp, simpdata[13, ], col ="maroon") 
+```
+
+Now we apply a strictly monotone function, such as $x^3, e^x, e^{-x}$
+
+First $e^x$
+
+```{r}
+expsimpdata = exp(simpdata)
+ymax = max(expsimpdata[c(2,3,5,7,11,13), ])
+ymin = min(expsimpdata[c(2,3,5,7,11,13), ])
+plot(x = tp, y = expsimpdata[2, ], type = "l", main = "After exponential transformation", ylim = c(ymin, ymax), col = "green")
+lines(tp, expsimpdata[3, ], col = "deeppink1" )
+lines(tp, expsimpdata[5, ], col ="blue2") 
+lines(tp, expsimpdata[7, ], col ="purple1")
+lines(tp, expsimpdata[11, ], col ="orange2") 
+lines(tp, expsimpdata[13, ], col ="maroon") 
+
+```
+
+Second $e^{-x}$
+
+```{r}
+expsimpdata1 = exp(-simpdata) ######p
+ymax = max(expsimpdata1[c(2,3,5,7,11,13), ])
+ymin = min(expsimpdata1[c(2,3,5,7,11,13), ])
+plot(x = tp, y = expsimpdata1[2, ], type = "l", main = "After negative exponential transformation", ylim = c(ymin, ymax), col = "green")
+lines(tp, expsimpdata1[3, ], col = "deeppink1" )
+lines(tp, expsimpdata1[5, ], col ="blue2") 
+lines(tp, expsimpdata1[7, ], col ="purple1")
+lines(tp, expsimpdata1[11, ], col ="orange2") 
+lines(tp, expsimpdata1[13, ], col ="maroon") 
+
+```
+
+and lastly $x^3$ transformation
+
+```{r}
+simpdata3 = (simpdata)^3
+ymax = max(simpdata3[c(2,3,5,7,11,13), ])
+ymin = min(simpdata3[c(112,3,5,7,11,13), ])
+plot(x = tp, y = simpdata3[2, ], type = "l", main = "After cubic transformation", ylim = c(ymin, ymax), col = "green")
+lines(tp, simpdata3[3, ], col = "deeppink1" )
+lines(tp, simpdata3[165, ], col ="blue2") 
+lines(tp, simpdata3[7, ], col ="purple1")
+lines(tp, simpdata3[11, ], col ="orange2") 
+lines(tp, simpdata3[13, ], col ="maroon") 
+
+```
+
+
+If we try some other rows of the matix: 
+
+```{r}
+simpdata3 = (simpdata)^3
+ymax = max(simpdata3[c(112,3,165,7,11,13), ])
+ymin = min(simpdata3[c(112,3,165,7,11,13), ])
+plot(x = tp, y = simpdata3[112, ], type = "l", main = "After cubic transformation", ylim = c(ymin, ymax), col = "green")
+lines(tp, simpdata3[3, ], col = "deeppink1" )
+lines(tp, simpdata3[165, ], col ="blue2") 
+lines(tp, simpdata3[7, ], col ="purple1")
+lines(tp, simpdata3[11, ], col ="orange2") 
+lines(tp, simpdata3[13, ], col ="maroon") 
+
+```
+
+Now we go back to the main plan :
+
+Given $X_i(t)$, $t=1, \dots, T$, $i = 1, \dots, n$. For simplicity, start with the same time points $t$ across subjects and equi-distant time points.
+
+**Step 1**: Construct sample correlation matrix $\widehat K \in \mathbb{R}^{T \times T}$ based on latent Gaussian copulas (see R package *latentcor*).
+
+```{r}
+#This is our X
+# T = 80
+# n = 200
+# simdata
+```
+
+We know that *latentcor* function gives 3 different correlation matrices: See [`latentcor`](https://cran.r-project.org/web/packages/latentcor/vignettes/latentcor.html).
+
+```{r}
+library(latentcor)
+X = simdata
+lcorrs = latentcor(X = X, types = "con")
+```
+
+Then we obtained our correlation matrices:
+
+```{r}
+kendalcor = lcorrs$K
+estcor = lcorrs$R
+pestcor = lcorrs$Rpointwise  #not guaranteed to be semi-positive definite
+```
+
+Next step is to pick one of them and smooth constructed correlation matrix to obtain smooth $\widetilde K$: 
+
+There are several ways of smoothing. We will use the method that is provided by [`fpca.sc`](https://github.com/refunders/refund/blob/master/R/fpca.sc.R) function.
+
+```{r Estimated latent correlation matrix}
+library(mgcv)
+####### cov.est.method=2
+
+K = estcor   #K is an 80x80 matrix
+#diag.G0 = diag(G.0)
+diag.K = diag(K) 
+diag(K) = NA
+argvals = tp
+cov.count = matrix(1, 80, 80) 
+
+# #######the case: if (!useSymm) (=T)  Default of useSymm = F
+row.vec = rep(argvals, each = 80)  #generally ncols of K
+col.vec = rep(argvals, 80)
+nbasis = 10
+premat = matrix(predict(gam(as.vector(K) ~ te(row.vec, col.vec, k = nbasis), weights = as.vector(cov.count)), newdata = data.frame(row.vec = row.vec, col.vec = col.vec)), 80, 80)
+prematT = (premat + t(premat))/2
+
+##############################################################
+##############################################################
+# the case: if (!useSymm) (=F) Default of useSymm = F
+      cov.count[2, 1] = cov.count[ncol(K), ncol(K) - 1] <- 0 
+      ucov.count = as.vector(cov.count)[utri]
+      utri = as.vector(utri)
+      vK = as.vector(K)[utri]
+      row.vec = rep(argvals, each = 80)[utri]
+      col.vec = rep(argvals, times = 80)[utri]
+      mCov = gam(vK ~ te(row.vec, col.vec, k = nbasis), weights = ucov.count)
+      prematF= matrix(NA, 80, 80)
+
+      spred = rep(argvals, each = 80)[upper.tri(prematF, diag = TRUE)]
+      tpred = rep(argvals, times = 80)[upper.tri(prematF, diag = TRUE)]
+      smCov =  predict(mCov, newdata = data.frame(row.vec = spred, col.vec = tpred))
+
+       prematF[upper.tri(prematF, diag = TRUE)] = smCov
+       prematF[lower.tri(prematF)] = t(prematF)[lower.tri(prematF)]
+       
+```
+
+Now we have two options "prematT"  and "prematF"
+
+```{r Checking positive definiteness}
+# To make sure our matrix positive definite and find the eigen-functions 
+# we have 2 options
+makePD = TRUE
+#case1
+
+if (makePD) {
+  prematT.pd <- {
+    tmp <- Matrix::nearPD(prematT, corr = FALSE, keepDiag = FALSE, do2eigen = TRUE, trace = TRUE)
+    as.matrix(tmp$mat)
+  }
+}
+
+sum(prematT == prematT.pd)
+#So we saw that above sum is equal to 0. 
+
+#case2
+if (makePD) {
+  prematF.pd <- {
+    tmp <- Matrix::nearPD(prematF, corr = FALSE, keepDiag = FALSE, do2eigen = TRUE, trace = TRUE)
+    as.matrix(tmp$mat)
+  }
+}
+
+sum(prematF.pd == prematF)
+
+#they are the same, it doesn't matter: 
+```
+We need to introduce another function to calculate eigen-functions
+```{r}
+quadWeights<- function(argvals, method = "trapezoidal")
+{
+  ret <- switch(method,
+                trapezoidal = {D <- length(argvals)
+                               1/2*c(argvals[2] - argvals[1], argvals[3:D] -argvals[1:(D-2)], argvals[D] - argvals[D-1])},
+                midpoint = c(0,diff(argvals)),  # why is this called 'midpoint'???
+                stop("function quadWeights: choose either trapezoidal or midpoint quadrature rule"))
+  
+  return(ret)  
+}
+```
+
+
+```{r}
+### numerical integration for calculation of eigenvalues
+integration = "trapezoidal"
+npc = 3   #in our case it is going to be 3 but default null
+### case 1
+npc.0T = prematT 
+  w <- quadWeights(argvals, method = integration)
+  Wsqrt <- diag(sqrt(w))
+  Winvsqrt <- diag(1/(sqrt(w)))
+  V <- Wsqrt %*% npc.0T %*% Wsqrt
+  evalues = eigen(V, symmetric = TRUE, only.values = TRUE)$values
+  ###
+  evalues = replace(evalues, which(evalues <= 0), 0)
+  npc = ifelse(is.null(npc), min(which(cumsum(evalues)/sum(evalues) > pve)), npc)
+  efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[ , seq(len =npc)], nrow = 80, ncol = npc)
+  efuncs.prematT = efunctions
+```
+
+```{r}
+### numerical integration for calculation of eigenvalues
+integration = "trapezoidal"
+npc = 3   #in our case it is going to be 3 but default null
+### case 2
+npc.0F = prematF
+  w <- quadWeights(argvals, method = integration)
+  Wsqrt <- diag(sqrt(w))
+  Winvsqrt <- diag(1/(sqrt(w)))
+  V <- Wsqrt %*% npc.0F %*% Wsqrt
+  evalues = eigen(V, symmetric = TRUE, only.values = TRUE)$values
+  ###
+  evalues = replace(evalues, which(evalues <= 0), 0)
+  npc = ifelse(is.null(npc), min(which(cumsum(evalues)/sum(evalues) > pve)), npc)
+  efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[ , seq(len =npc)], nrow = 80, ncol = npc)
+  efuncs.prematF = efunctions
+  
+```
+
+
+
+
+
+### To compare/ to find the "best" covariance function to give us a better eigen-functions:
+
+Now we will use another covariance matrix: **Point-wise estimates of latent correlation**:
+
+```{r Point-wise estimates of latent correlation}
+K = lcorrs$Rpointwise   #K is an 80x80 matrix
+diag.K = diag(K) 
+diag(K) = NA
+argvals = tp
+cov.count = matrix(1, 80, 80) 
+
+# #######the case: if (!useSymm) (=T)  Default of useSymm = F
+row.vec = rep(argvals, each = 80)  #generally ncols of K
+col.vec = rep(argvals, 80)
+nbasis = 10
+premat = matrix(predict(gam(as.vector(K) ~ te(row.vec, col.vec, k = nbasis), weights = as.vector(cov.count)), newdata = data.frame(row.vec = row.vec, col.vec = col.vec)), 80, 80)
+prematT = (premat + t(premat))/2
+
+##############################################################
+##############################################################
+# the case: if (!useSymm) (=F) Default of useSymm = F
+      cov.count[2, 1] = cov.count[ncol(K), ncol(K) - 1] <- 0 
+      ucov.count = as.vector(cov.count)[utri]
+      utri = as.vector(utri)
+      vK = as.vector(K)[utri]
+      row.vec = rep(argvals, each = 80)[utri]
+      col.vec = rep(argvals, times = 80)[utri]
+      mCov = gam(vK ~ te(row.vec, col.vec, k = nbasis), weights = ucov.count)
+      prematF= matrix(NA, 80, 80)
+
+      spred = rep(argvals, each = 80)[upper.tri(prematF, diag = TRUE)]
+      tpred = rep(argvals, times = 80)[upper.tri(prematF, diag = TRUE)]
+      smCov =  predict(mCov, newdata = data.frame(row.vec = spred, col.vec = tpred))
+
+       prematF[upper.tri(prematF, diag = TRUE)] = smCov
+       prematF[lower.tri(prematF)] = t(prematF)[lower.tri(prematF)]
+
+###################################################     
+###################################################     
+########### WE do not need this step
+# To make sure our matrix positive definite and find the eigen-functions 
+# we have 2 options
+makePD = TRUE
+#case1
+
+if (makePD) {
+  prematT.pd <- {
+    tmp <- Matrix::nearPD(prematT, corr = FALSE, keepDiag = FALSE, do2eigen = TRUE, trace = TRUE)
+    as.matrix(tmp$mat)
+  }
+}
+
+sum(prematT == prematT.pd)
+#So we saw that above sum is equal to 0. 
+
+#case2
+if (makePD) {
+  prematF.pd <- {
+    tmp <- Matrix::nearPD(prematF, corr = FALSE, keepDiag = FALSE, do2eigen = TRUE, trace = TRUE)
+    as.matrix(tmp$mat)
+  }
+}
+
+sum(prematF.pd == prematF)
+
+#they are the same, it doesn't matter:  
+################################
+################################################### 
+#####EIGEN-FUNCTIONS CALCULATION
+###################################################     
+### numerical integration for calculation of eigenvalues
+integration = "trapezoidal"
+npc = 3   #in our case it is going to be 3 but default null
+### case 1
+npc.0T = prematT 
+  w <- quadWeights(argvals, method = integration)
+  Wsqrt <- diag(sqrt(w))
+  Winvsqrt <- diag(1/(sqrt(w)))
+  V <- Wsqrt %*% npc.0T %*% Wsqrt
+  evalues = eigen(V, symmetric = TRUE, only.values = TRUE)$values
+  evalues = replace(evalues, which(evalues <= 0), 0)
+  npc = ifelse(is.null(npc), min(which(cumsum(evalues)/sum(evalues) > pve)), npc)
+  efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[ , seq(len =npc)], nrow = 80, ncol = npc)
+  efuncs.prematT.pointwise = efunctions
+  
+  
+  ### case 2
+npc.0F = prematF
+  w <- quadWeights(argvals, method = integration)
+  Wsqrt <- diag(sqrt(w))
+  Winvsqrt <- diag(1/(sqrt(w)))
+  V <- Wsqrt %*% npc.0F %*% Wsqrt
+  evalues = eigen(V, symmetric = TRUE, only.values = TRUE)$values
+  ###
+  evalues = replace(evalues, which(evalues <= 0), 0)
+  npc = ifelse(is.null(npc), min(which(cumsum(evalues)/sum(evalues) > pve)), npc)
+  efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[ , seq(len =npc)], nrow = 80, ncol = npc)
+  efuncs.prematF.pointwise = efunctions
+  
+```
+
+Lastly, we will consider **Kendall Tau Matrix**
+```{r Kendall Tau Matrix}
+K = lcorrs$Rpointwise   #K is an 80x80 matrix
+diag.K = diag(K) 
+diag(K) = NA
+argvals = tp
+cov.count = matrix(1, 80, 80) 
+
+# #######the case: if (!useSymm) (=T)  Default of useSymm = F
+row.vec = rep(argvals, each = 80)  #generally ncols of K
+col.vec = rep(argvals, 80)
+nbasis = 10
+premat = matrix(predict(gam(as.vector(K) ~ te(row.vec, col.vec, k = nbasis), weights = as.vector(cov.count)), newdata = data.frame(row.vec = row.vec, col.vec = col.vec)), 80, 80)
+prematT = (premat + t(premat))/2
+
+##############################################################
+##############################################################
+# the case: if (!useSymm) (=F) Default of useSymm = F
+      cov.count[2, 1] = cov.count[ncol(K), ncol(K) - 1] <- 0 
+      ucov.count = as.vector(cov.count)[utri]
+      utri = as.vector(utri)
+      vK = as.vector(K)[utri]
+      row.vec = rep(argvals, each = 80)[utri]
+      col.vec = rep(argvals, times = 80)[utri]
+      mCov = gam(vK ~ te(row.vec, col.vec, k = nbasis), weights = ucov.count)
+      prematF= matrix(NA, 80, 80)
+
+      spred = rep(argvals, each = 80)[upper.tri(prematF, diag = TRUE)]
+      tpred = rep(argvals, times = 80)[upper.tri(prematF, diag = TRUE)]
+      smCov =  predict(mCov, newdata = data.frame(row.vec = spred, col.vec = tpred))
+
+       prematF[upper.tri(prematF, diag = TRUE)] = smCov
+       prematF[lower.tri(prematF)] = t(prematF)[lower.tri(prematF)]
+
+###################################################     
+###################################################     
+########### WE do not need this step
+# To make sure our matrix positive definite and find the eigen-functions 
+# we have 2 options
+makePD = TRUE
+#case1
+
+if (makePD) {
+  prematT.pd <- {
+    tmp <- Matrix::nearPD(prematT, corr = FALSE, keepDiag = FALSE, do2eigen = TRUE, trace = TRUE)
+    as.matrix(tmp$mat)
+  }
+}
+
+sum(prematT == prematT.pd)
+#So we saw that above sum is equal to 0. 
+
+#case2
+if (makePD) {
+  prematF.pd <- {
+    tmp <- Matrix::nearPD(prematF, corr = FALSE, keepDiag = FALSE, do2eigen = TRUE, trace = TRUE)
+    as.matrix(tmp$mat)
+  }
+}
+
+sum(prematF.pd == prematF)
+
+#they are the same, it doesn't matter:  
+################################
+################################################### 
+#####EIGEN-FUNCTIONS CALCULATION
+###################################################     
+### numerical integration for calculation of eigenvalues
+integration = "trapezoidal"
+npc = 3   #in our case it is going to be 3 but default null
+### case 1
+npc.0T = prematT 
+  w <- quadWeights(argvals, method = integration)
+  Wsqrt <- diag(sqrt(w))
+  Winvsqrt <- diag(1/(sqrt(w)))
+  V <- Wsqrt %*% npc.0T %*% Wsqrt
+  evalues = eigen(V, symmetric = TRUE, only.values = TRUE)$values
+  evalues = replace(evalues, which(evalues <= 0), 0)
+  npc = ifelse(is.null(npc), min(which(cumsum(evalues)/sum(evalues) > pve)), npc)
+  efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[ , seq(len =npc)], nrow = 80, ncol = npc)
+  efuncs.prematT.Kendall = efunctions
+  
+  
+  ### case 2
+npc.0F = prematF
+  w <- quadWeights(argvals, method = integration)
+  Wsqrt <- diag(sqrt(w))
+  Winvsqrt <- diag(1/(sqrt(w)))
+  V <- Wsqrt %*% npc.0F %*% Wsqrt
+  evalues = eigen(V, symmetric = TRUE, only.values = TRUE)$values
+  ###
+  evalues = replace(evalues, which(evalues <= 0), 0)
+  npc = ifelse(is.null(npc), min(which(cumsum(evalues)/sum(evalues) > pve)), npc)
+  efunctions = matrix(Winvsqrt %*% eigen(V, symmetric = TRUE)$vectors[ , seq(len =npc)], nrow = 80, ncol = npc)
+  efuncs.prematF.Kendall = efunctions
+  
+```
+
+Hence we found eigen-functions for all cases: for all covariance matrices
+
+#### we will use this one as our $X_i$
+```{r}
+expsimpdata1 = exp(-simpdata) ######p
+ymax = max(expsimpdata1[c(2,3,5,7,11,13), ])
+ymin = min(expsimpdata1[c(2,3,5,7,11,13), ])
+plot(x = tp, y = expsimpdata1[2, ], type = "l", main = "After negative exponential transformation", ylim = c(ymin, ymax), col = "green")
+lines(tp, expsimpdata1[3, ], col = "deeppink1" )
+lines(tp, expsimpdata1[5, ], col ="blue2") 
+lines(tp, expsimpdata1[7, ], col ="purple1")
+lines(tp, expsimpdata1[11, ], col ="orange2") 
+lines(tp, expsimpdata1[13, ], col ="maroon") 
+
+#the matrix X we will extract the efunctions and later compare them
+X = expsimpdata1
+dim(X)
+
+
+```
